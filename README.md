@@ -70,17 +70,41 @@ dotnet build
 - **内存分配稳定减少 13-18%**（~34-35 KB vs ~40-42 KB），这是编译查询最显著的收益
 - 所有 Compiled 查询的 Gen0 GC 次数从 4.88 降至 3.91（减少约 20%）
 
-## How EF.CompileQuery Works
+## EF.CompileQuery vs 自动缓存 / Built-in Query Cache
 
-`EF.CompileQuery` 将 LINQ 表达式树预编译为缓存的委托，跳过每次调用时的表达式解析开销：
+EF Core 本身会**自动缓存**普通 LINQ 查询的编译结果（查询计划缓存），因此 Normal 查询并非每次都重新编译表达式树：
+
+```
+第一次调用：编译表达式树 → 缓存查询计划
+后续调用：哈希匹配缓存 → 命中 → 复用已编译计划
+```
+
+`EF.CompileQuery` 省掉的是**查找缓存的那一步哈希匹配开销**，而不是编译本身。这也是为什么基准测试中两者差距不大（仅 1-8%）：
+
+| 方式 | 原理 | Mean (ID+Tracking) |
+|------|------|-----|
+| Normal（自动缓存） | 每次调用时哈希查找缓存 → 命中 → 执行 | 531.9 us |
+| Compiled（手动编译） | 直接调用预编译委托，跳过缓存查找 | 492.0 us |
+
+### 何时使用 EF.CompileQuery
+
+大多数场景下，普通 LINQ 查询 + EF Core 自动缓存已经足够。`EF.CompileQuery` 适合：
+
+- **极端性能敏感的热路径** -- 每秒数千次调用的高频查询
+- **需要减少内存分配** -- 编译查询减少 13-18% 内存分配（~35 KB vs ~40 KB）
+- **避免缓存查找开销** -- 省去表达式树哈希计算和缓存键匹配
+
+### 代码示例
 
 ```csharp
-// 定义编译查询（SeedData.cs 中集中管理）
+// 方式1：普通 LINQ（依赖自动缓存，大多数场景足够）
+var customer = context.Customers.FirstOrDefault(c => c.Id == id);
+
+// 方式2：EF.CompileQuery（手动编译，适合热路径）
 public static readonly Func<AppDbContext, int, Customer?> GetByIdCompiled =
     EF.CompileQuery((AppDbContext ctx, int id) =>
         ctx.Customers.FirstOrDefault(c => c.Id == id));
 
-// 使用 - 无需每次编译表达式
 var customer = SeedData.GetByIdCompiled(context, 42);
 ```
 
