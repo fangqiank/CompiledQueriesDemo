@@ -1,0 +1,124 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 620" font-family="Segoe UI, Arial, sans-serif">
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 6" refX="10" refY="3" markerWidth="10" markerHeight="6" orient="auto">
+      <path d="M0,0 L10,3 L0,6 Z" fill="#6B7280"/>
+    </marker>
+    <marker id="arrow-blue" viewBox="0 0 10 6" refX="10" refY="3" markerWidth="10" markerHeight="6" orient="auto">
+      <path d="M0,0 L10,3 L0,6 Z" fill="#3B82F6"/>
+    </marker>
+    <linearGradient id="blueGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#DBEAFE"/>
+      <stop offset="100%" style="stop-color:#BFDBFE"/>
+    </linearGradient>
+    <linearGradient id="greenGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#D1FAE5"/>
+      <stop offset="100%" style="stop-color:#A7F3D0"/>
+    </linearGradient>
+    <linearGradient id="purpleGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#EDE9FE"/>
+      <stop offset="100%" style="stop-color:#DDD6FE"/>
+    </linearGradient>
+    <linearGradient id="orangeGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#FED7AA"/>
+      <stop offset="100%" style="stop-color:#FDBA74"/>
+    </linearGradient>
+    <linearGradient id="grayGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#F3F4F6"/>
+      <stop offset="100%" style="stop-color:#E5E7EB"/>
+    </linearGradient>
+    <filter id="shadow" x="-2%" y="-2%" width="104%" height="108%">
+      <feDropShadow dx="1" dy="2" stdDeviation="2" flood-opacity="0.1"/>
+    </filter>
+  </defs>
+
+  <!-- Title -->
+  <text x="450" y="30" text-anchor="middle" font-size="18" font-weight="bold" fill="#1E3A5F">CompiledQueriesDemo Architecture</text>
+  <text x="450" y="50" text-anchor="middle" font-size="12" fill="#6B7280">EF Core Compiled Queries Benchmark (.NET 10 + PostgreSQL)</text>
+
+  <!-- ========== Entry Point ========== -->
+  <rect x="310" y="70" width="280" height="50" rx="8" fill="url(#blueGrad)" stroke="#3B82F6" stroke-width="1.5" filter="url(#shadow)"/>
+  <text x="450" y="92" text-anchor="middle" font-size="13" font-weight="600" fill="#1E40AF">Program.cs</text>
+  <text x="450" y="108" text-anchor="middle" font-size="10" fill="#3B82F6">Entry Point + Quick Validation</text>
+
+  <!-- Arrow: Program -> BenchmarkRunner -->
+  <line x1="450" y1="120" x2="450" y2="155" stroke="#6B7280" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <text x="470" y="142" font-size="9" fill="#6B7280">BenchmarkRunner.Run</text>
+
+  <!-- ========== Benchmark Layer ========== -->
+  <rect x="180" y="160" width="540" height="100" rx="10" fill="none" stroke="#8B5CF6" stroke-width="1" stroke-dasharray="6,3"/>
+  <text x="195" y="178" font-size="11" font-weight="600" fill="#7C3AED">BenchmarkDotNet Layer</text>
+
+  <rect x="200" y="188" width="500" height="58" rx="8" fill="url(#purpleGrad)" stroke="#8B5CF6" stroke-width="1.5" filter="url(#shadow)"/>
+  <text x="450" y="212" text-anchor="middle" font-size="13" font-weight="600" fill="#5B21B6">QueryBenchmarks.cs</text>
+  <text x="450" y="230" text-anchor="middle" font-size="10" fill="#7C3AED">3 Groups x 2 Methods = 6 Benchmarks (Normal vs Compiled)</text>
+
+  <!-- Benchmark details -->
+  <rect x="205" y="270" width="150" height="40" rx="6" fill="#F5F3FF" stroke="#A78BFA" stroke-width="1"/>
+  <text x="280" y="286" text-anchor="middle" font-size="10" fill="#6D28D9">By ID (Tracking)</text>
+  <text x="280" y="300" text-anchor="middle" font-size="9" fill="#8B5CF6">Normal vs Compiled</text>
+
+  <rect x="375" y="270" width="150" height="40" rx="6" fill="#F5F3FF" stroke="#A78BFA" stroke-width="1"/>
+  <text x="450" y="286" text-anchor="middle" font-size="10" fill="#6D28D9">By ID (NoTracking)</text>
+  <text x="450" y="300" text-anchor="middle" font-size="9" fill="#8B5CF6">Normal vs Compiled</text>
+
+  <rect x="545" y="270" width="150" height="40" rx="6" fill="#F5F3FF" stroke="#A78BFA" stroke-width="1"/>
+  <text x="620" y="286" text-anchor="middle" font-size="10" fill="#6D28D9">By Name+Age</text>
+  <text x="620" y="300" text-anchor="middle" font-size="9" fill="#8B5CF6">Normal vs Compiled</text>
+
+  <!-- Arrows from QueryBenchmarks to detail boxes -->
+  <line x1="280" y1="246" x2="280" y2="268" stroke="#A78BFA" stroke-width="1" marker-end="url(#arrow)"/>
+  <line x1="450" y1="246" x2="450" y2="268" stroke="#A78BFA" stroke-width="1" marker-end="url(#arrow)"/>
+  <line x1="620" y1="246" x2="620" y2="268" stroke="#A78BFA" stroke-width="1" marker-end="url(#arrow)"/>
+
+  <!-- Arrow: Benchmarks -> DbContext -->
+  <line x1="450" y1="310" x2="450" y2="345" stroke="#6B7280" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <text x="470" y="332" font-size="9" fill="#6B7280">new AppDbContext()</text>
+
+  <!-- ========== Data Access Layer ========== -->
+  <rect x="250" y="350" width="400" height="55" rx="8" fill="url(#greenGrad)" stroke="#10B981" stroke-width="1.5" filter="url(#shadow)"/>
+  <text x="450" y="372" text-anchor="middle" font-size="13" font-weight="600" fill="#065F46">AppDbContext.cs</text>
+  <text x="450" y="390" text-anchor="middle" font-size="10" fill="#059669">EF Core DbContext | Table: customers | Index: (Name, Age)</text>
+
+  <!-- Arrow: DbContext -> Model -->
+  <line x1="370" y1="405" x2="250" y2="435" stroke="#6B7280" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <text x="280" y="418" font-size="9" fill="#6B7280">DbSet&lt;Customer&gt;</text>
+
+  <!-- Arrow: DbContext -> PostgreSQL -->
+  <line x1="530" y1="405" x2="620" y2="435" stroke="#3B82F6" stroke-width="1.5" marker-end="url(#arrow-blue)"/>
+  <text x="600" y="418" font-size="9" fill="#3B82F6">Npgsql</text>
+
+  <!-- ========== Model ========== -->
+  <rect x="120" y="440" width="200" height="55" rx="8" fill="url(#grayGrad)" stroke="#6B7280" stroke-width="1.5" filter="url(#shadow)"/>
+  <text x="220" y="462" text-anchor="middle" font-size="13" font-weight="600" fill="#374151">Customer.cs</text>
+  <text x="220" y="480" text-anchor="middle" font-size="10" fill="#6B7280">Id (PK) | Name | Age</text>
+
+  <!-- ========== Infrastructure ========== -->
+  <rect x="450" y="440" width="340" height="80" rx="10" fill="none" stroke="#F97316" stroke-width="1" stroke-dasharray="6,3"/>
+  <text x="465" y="458" font-size="11" font-weight="600" fill="#EA580C">Infrastructure</text>
+
+  <rect x="465" y="465" width="145" height="45" rx="6" fill="url(#orangeGrad)" stroke="#F97316" stroke-width="1.5" filter="url(#shadow)"/>
+  <text x="537" y="484" text-anchor="middle" font-size="11" font-weight="600" fill="#9A3412">PostgreSQL 16</text>
+  <text x="537" y="498" text-anchor="middle" font-size="9" fill="#C2410C">Docker Compose</text>
+
+  <rect x="625" y="465" width="145" height="45" rx="6" fill="url(#orangeGrad)" stroke="#F97316" stroke-width="1.5" filter="url(#shadow)"/>
+  <text x="697" y="484" text-anchor="middle" font-size="11" font-weight="600" fill="#9A3412">docker-compose.yml</text>
+  <text x="697" y="498" text-anchor="middle" font-size="9" fill="#C2410C">Port 5433:5432</text>
+
+  <!-- Connection between PG and docker-compose -->
+  <line x1="610" y1="487" x2="623" y2="487" stroke="#F97316" stroke-width="1" marker-end="url(#arrow)"/>
+
+  <!-- ========== Data Flow Legend ========== -->
+  <rect x="120" y="545" width="660" height="60" rx="8" fill="#F9FAFB" stroke="#D1D5DB" stroke-width="1"/>
+  <text x="140" y="565" font-size="11" font-weight="600" fill="#374151">Data Flow:</text>
+  <text x="140" y="582" font-size="10" fill="#6B7280">1. Program.cs seeds 10,000 Customer records</text>
+  <text x="420" y="582" font-size="10" fill="#6B7280">2. QueryBenchmarks executes 6 benchmarks</text>
+  <text x="660" y="582" font-size="10" fill="#6B7280">3. Results exported as CSV/HTML</text>
+
+  <!-- EF.CompileQuery callout -->
+  <rect x="700" y="70" width="180" height="80" rx="8" fill="#EFF6FF" stroke="#60A5FA" stroke-width="1"/>
+  <text x="790" y="88" text-anchor="middle" font-size="10" font-weight="600" fill="#1D4ED8">EF.CompileQuery</text>
+  <text x="790" y="104" text-anchor="middle" font-size="9" fill="#3B82F6">Pre-compiles LINQ expression</text>
+  <text x="790" y="118" text-anchor="middle" font-size="9" fill="#3B82F6">tree into cached delegate</text>
+  <text x="790" y="132" text-anchor="middle" font-size="9" fill="#3B82F6">skipping per-call parsing</text>
+  <line x1="700" y1="110" x2="590" y2="200" stroke="#60A5FA" stroke-width="1" stroke-dasharray="4,2"/>
+</svg>
